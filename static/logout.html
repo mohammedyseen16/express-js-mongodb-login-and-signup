@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <center>
+        <br><br><br><br>
+    <h3>You have logged-out</h3>
+ 
+  
+    
+     <img src="./images/imag.png" alt="">
+     <button class="button2" onclick="location.href = 'http://localhost:9999/login.html'">Login</button>
+
+     </center> 
+    <script>
+        const form = document.getElementById('login')
+        form.addEventListener('submit', login)
+
+        async function login(event) {
+            event.preventDefault()
+            const username = document.getElementById('username').value
+            const password = document.getElementById('password').value
+
+            const result = await fetch('/api/login', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password
+                })
+            }).then((res) => res.json())
+
+            if (result.status === 'ok') {
+                // everythign went fine
+                console.log('Got the token: ', result.data)
+                localStorage.setItem('token', result.data)
+                alert('Success')
+                
+            } else {
+                alert(result.error)
+            }
+        }
+    </script>
+</body>
+</html>
